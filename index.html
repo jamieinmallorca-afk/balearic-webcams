@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Balearic Islands Webcams</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #080f18;
+    --surface:  #0e1a28;
+    --card:     #111e2e;
+    --border:   #1a2d42;
+    --accent:   #00b4d8;
+    --accent2:  #0077b6;
+    --gold:     #f4a261;
+    --text:     #d0e8f5;
+    --muted:    #4a7a9b;
+    --error:    #1a2d42;
+    --green:    #2ecc71;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(180deg, #0a1828 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 24px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+  }
+
+  .logo {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .logo h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .logo span {
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .pulse-dot {
+    width: 8px; height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+    display: inline-block;
+    animation: pulse 2s infinite;
+    margin-right: 6px;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+
+  .live-badge {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    color: var(--green);
+    text-transform: uppercase;
+  }
+
+  /* ── CONTROLS ── */
+  .controls {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .filter-label {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    margin-right: 4px;
+  }
+
+  .filter-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 5px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .filter-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .filter-btn.active {
+    background: var(--accent2);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .spacer { flex: 1; }
+
+  .refresh-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  select {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .refresh-now-btn {
+    background: var(--accent2);
+    border: none;
+    color: #fff;
+    padding: 5px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    transition: background 0.2s;
+  }
+
+  .refresh-now-btn:hover { background: var(--accent); }
+
+  /* ── GRID ── */
+  .grid-container {
+    padding: 20px 24px;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+    padding: 16px 0 10px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+
+  .section-title span {
+    color: var(--accent);
+    margin-right: 8px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+
+  /* ── CARD ── */
+  .cam-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+    cursor: pointer;
+  }
+
+  .cam-card:hover {
+    border-color: var(--accent2);
+    transform: translateY(-2px);
+  }
+
+  .cam-card.hidden { display: none; }
+
+  .card-header {
+    padding: 10px 12px 8px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .cam-name {
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .cam-location {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .road-tag {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 2px 7px;
+    border-radius: 10px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .tag-traffic { background: #1a3a1a; color: #5cb85c; border: 1px solid #2d5a2d; }
+  .tag-mallorca { background: #0a2540; color: var(--accent); border: 1px solid var(--accent2); }
+  .tag-ibiza { background: #2a1a0a; color: var(--gold); border: 1px solid #5a3a0a; }
+  .tag-menorca { background: #1a0a2a; color: #c084fc; border: 1px solid #3a1a5a; }
+
+  .img-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/10;
+    background: var(--bg);
+    overflow: hidden;
+  }
+
+  .cam-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.3s;
+  }
+
+  .cam-img.loading { opacity: 0.3; }
+
+  .img-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+
+  .img-overlay.visible { opacity: 1; }
+
+  .overlay-icon { font-size: 24px; }
+
+  .overlay-msg {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+    padding: 0 16px;
+  }
+
+  .card-footer {
+    padding: 6px 12px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .updated-time {
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  .img-status {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--muted);
+  }
+
+  .img-status.ok { background: var(--green); }
+  .img-status.err { background: #e74c3c; }
+  .img-status.loading {
+    background: var(--accent);
+    animation: pulse 1s infinite;
+  }
+
+  /* ── COUNTDOWN BAR ── */
+  .countdown-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 8px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 11px;
+    color: var(--muted);
+    z-index: 100;
+  }
+
+  .progress-track {
+    flex: 1;
+    height: 2px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 1s linear;
+  }
+
+  /* ── LIGHTBOX ── */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .lightbox.open { display: flex; }
+
+  .lightbox-inner {
+    max-width: 1000px;
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .lightbox-header {
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .lightbox-title { font-weight: 500; font-size: 15px; }
+  .lightbox-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  .close-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    width: 30px; height: 30px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .close-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .lightbox-img {
+    width: 100%;
+    max-height: 60vh;
+    object-fit: contain;
+    display: block;
+    background: var(--bg);
+  }
+
+  .lightbox-footer {
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    header { padding: 14px 16px 12px; }
+    .controls { padding: 8px 16px; }
+    .grid-container { padding: 14px 16px; }
+    .grid { grid-template-columns: 1fr; gap: 10px; }
+    .logo h1 { font-size: 22px; }
+    .countdown-bar { padding: 6px 16px; }
+  }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  }
+
+  /* ── EMPTY STATE ── */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+    display: none;
+  }
+  .empty-state.visible { display: block; }
+  .empty-icon { font-size: 40px; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <h1>🌊 Balearic Webcams</h1>
+    <span>Live views from Mallorca · Ibiza · Menorca</span>
+  </div>
+  <div class="header-right">
+    <span class="pulse-dot"></span>
+    <span class="live-badge">Live</span>
+  </div>
+</header>
+
+<div class="controls">
+  <span class="filter-label">Filter:</span>
+  <button class="filter-btn active" data-filter="all">All cameras</button>
+  <button class="filter-btn" data-filter="traffic">🚗 Traffic</button>
+  <button class="filter-btn" data-filter="Mallorca">🏖 Mallorca</button>
+  <button class="filter-btn" data-filter="Ibiza">🎉 Ibiza</button>
+  <button class="filter-btn" data-filter="Menorca">⛵ Menorca</button>
+  <div class="spacer"></div>
+  <div class="refresh-control">
+    <span class="filter-label">Refresh:</span>
+    <select id="interval-select">
+      <option value="15">15 seconds</option>
+      <option value="30" selected>30 seconds</option>
+      <option value="60">1 minute</option>
+      <option value="120">2 minutes</option>
+      <option value="300">5 minutes</option>
+    </select>
+    <button class="refresh-now-btn" onclick="refreshAll()">↻ Refresh All</button>
+  </div>
+</div>
+
+<div class="grid-container" id="main-grid"></div>
+
+<div class="countdown-bar">
+  <span id="countdown-text">Next refresh in 30s</span>
+  <div class="progress-track">
+    <div class="progress-fill" id="progress-fill" style="width:100%"></div>
+  </div>
+  <span id="cam-count"></span>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-inner" onclick="event.stopPropagation()">
+    <div class="lightbox-header">
+      <div>
+        <div class="lightbox-title" id="lb-title"></div>
+        <div class="lightbox-sub" id="lb-sub"></div>
+      </div>
+      <button class="close-btn" onclick="closeLightbox()">✕</button>
+    </div>
+    <img class="lightbox-img" id="lb-img" src="" alt="">
+    <div class="lightbox-footer">
+      <span id="lb-updated"></span>
+      <button class="refresh-now-btn" onclick="refreshLightbox()">↻ Refresh</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Camera data ──────────────────────────────────────────────────────────
+const CAMERAS = [
+  // MA-19
+  { name:"MA-19 · El Molinar (km 4.2)", location:"El Molinar, Palma", group:"traffic", road:"MA-19", url:"https://infocar.dgt.es/etraffic/data/camaras/1398.jpg" },
+  { name:"MA-19 · Playa Ciudad Jardín (km 5)", location:"Ciudad Jardín, Palma", group:"traffic", road:"MA-19", url:"https://infocar.dgt.es/etraffic/data/camaras/1399.jpg" },
+  { name:"MA-19 · Can Pastilla (km 7.5)", location:"Can Pastilla", group:"traffic", road:"MA-19", url:"https://infocar.dgt.es/etraffic/data/camaras/1400.jpg" },
+  { name:"MA-19 · Palma Aquarium (km 9.6)", location:"s'Arenal Nord", group:"traffic", road:"MA-19", url:"https://infocar.dgt.es/etraffic/data/camaras/1401.jpg" },
+  { name:"MA-19 · Els Pil·larí (km 11.7)", location:"Els Pil·larí", group:"traffic", road:"MA-19", url:"https://infocar.dgt.es/etraffic/data/camaras/1402.jpg" },
+  { name:"MA-19 · Ses Cadenes (km 13)", location:"Ses Cadenes", group:"traffic", road:"MA-19", url:"https://infocar.dgt.es/etraffic/data/camaras/1403.jpg" },
+  { name:"MA-19 · El Arenal (km 14.2)", location:"El Arenal", group:"traffic", road:"MA-19", url:"https://infocar.dgt.es/etraffic/data/camaras/165395.jpg" },
+  { name:"MA-19 · El Arenal Oeste (km 15.4)", location:"El Arenal Oeste", group:"traffic", road:"MA-19", url:"https://infocar.dgt.es/etraffic/data/camaras/165402.jpg" },
+  { name:"MA-19 · Llucmajor (km 19)", location:"Llucmajor", group:"traffic", road:"MA-19", url:"https://infocar.dgt.es/etraffic/data/camaras/165403.jpg" },
+  // MA-20
+  { name:"MA-20 · Palma Norte (km 6.15)", location:"Palma Norte", group:"traffic", road:"MA-20", url:"https://infocar.dgt.es/etraffic/data/camaras/1657.jpg" },
+  // MA-13
+  { name:"MA-13 · Pont d'Inca (km 4.1)", location:"Pont d'Inca", group:"traffic", road:"MA-13", url:"https://infocar.dgt.es/etraffic/data/camaras/1393.jpg" },
+  { name:"MA-13 · Marratxí (km 8)", location:"Marratxí", group:"traffic", road:"MA-13", url:"https://infocar.dgt.es/etraffic/data/camaras/1394.jpg" },
+  { name:"MA-13 · Santa Maria del Camí (km 12)", location:"Santa Maria del Camí", group:"traffic", road:"MA-13", url:"https://infocar.dgt.es/etraffic/data/camaras/1395.jpg" },
+  { name:"MA-13 · Consell (km 17)", location:"Consell", group:"traffic", road:"MA-13", url:"https://infocar.dgt.es/etraffic/data/camaras/1396.jpg" },
+  { name:"MA-13 · Binissalem (km 19.4)", location:"Binissalem", group:"traffic", road:"MA-13", url:"https://infocar.dgt.es/etraffic/data/camaras/1654.jpg" },
+  { name:"MA-13 · Inca Sur (km 25)", location:"Inca", group:"traffic", road:"MA-13", url:"https://infocar.dgt.es/etraffic/data/camaras/1397.jpg" },
+  // MA-1
+  { name:"MA-1 · Cala Major (km 4)", location:"Cala Major, Palma", group:"traffic", road:"MA-1", url:"https://infocar.dgt.es/etraffic/data/camaras/1389.jpg" },
+  { name:"MA-1 · Sant Agustí (km 6.9)", location:"Sant Agustí, Palma", group:"traffic", road:"MA-1", url:"https://infocar.dgt.es/etraffic/data/camaras/1388.jpg" },
+  { name:"MA-1 · Bendinat (km 8.6)", location:"Castell de Bendinat", group:"traffic", road:"MA-1", url:"https://infocar.dgt.es/etraffic/data/camaras/1387.jpg" },
+  { name:"MA-1 · Portal Nous (km 9.7)", location:"Portal Nous / Illetes", group:"traffic", road:"MA-1", url:"https://infocar.dgt.es/etraffic/data/camaras/1386.jpg" },
+  { name:"MA-1 · Son Caliu (km 12.6)", location:"Son Caliu / Palmanova", group:"traffic", road:"MA-1", url:"https://infocar.dgt.es/etraffic/data/camaras/1385.jpg" },
+  { name:"MA-1 · Cala Figuera (km 14)", location:"Cala Figuera / Calvià", group:"traffic", road:"MA-1", url:"https://infocar.dgt.es/etraffic/data/camaras/1384.jpg" },
+  { name:"MA-1 · Galatzó (km 16.9)", location:"Galatzó", group:"traffic", road:"MA-1", url:"https://infocar.dgt.es/etraffic/data/camaras/1383.jpg" },
+  { name:"MA-1 · Costa de la Calma (km 20.8)", location:"Costa de la Calma", group:"traffic", road:"MA-1", url:"https://infocar.dgt.es/etraffic/data/camaras/1382.jpg" },
+  // Mallorca scenic
+  { name:"Pollença Bay", location:"Alcúdia / Es Barcarès", group:"Mallorca", road:"Mallorca", url:"https://cdn.skylinewebcams.com/live4297.jpg" },
+  { name:"Can Pastilla Beach", location:"Can Pastilla, Palma", group:"Mallorca", road:"Mallorca", url:"https://cdn.skylinewebcams.com/live4834.jpg" },
+  { name:"Palma Panorama", location:"Palma de Mallorca", group:"Mallorca", road:"Mallorca", url:"https://cdn.skylinewebcams.com/live5492.jpg" },
+  { name:"Playa de Muro", location:"Muro / Bay of Alcúdia", group:"Mallorca", road:"Mallorca", url:"https://cdn.skylinewebcams.com/live5573.jpg" },
+  { name:"Paguera Beach", location:"Paguera, SW Mallorca", group:"Mallorca", road:"Mallorca", url:"https://cdn.skylinewebcams.com/live3054.jpg" },
+  { name:"Cala Agulla", location:"Cala Ratjada, E Mallorca", group:"Mallorca", road:"Mallorca", url:"https://cdn.skylinewebcams.com/live4912.jpg" },
+  // Ibiza
+  { name:"Cala Vadella", location:"Cala Vadella, SW Ibiza", group:"Ibiza", road:"Ibiza", url:"https://cdn.skylinewebcams.com/live1152.jpg" },
+  { name:"Cala Vadella Harbour", location:"Cala Vadella natural harbour", group:"Ibiza", road:"Ibiza", url:"https://cdn.skylinewebcams.com/live713.jpg" },
+  { name:"Sant Antoni de Portmany", location:"Sant Antoni, W Ibiza", group:"Ibiza", road:"Ibiza", url:"https://cdn.skylinewebcams.com/live1110.jpg" },
+  { name:"Ibiza Panorama", location:"Ibiza coast", group:"Ibiza", road:"Ibiza", url:"https://cdn.skylinewebcams.com/live5725.jpg" },
+  // Menorca
+  { name:"Port of Mahón", location:"Mahón, Menorca", group:"Menorca", road:"Menorca", url:"https://cdn.skylinewebcams.com/live4808.jpg" },
+  { name:"Ciutadella Harbour", location:"Ciutadella de Menorca", group:"Menorca", road:"Menorca", url:"https://cdn.skylinewebcams.com/live4456.jpg" },
+];
+
+// ── State ────────────────────────────────────────────────────────────────
+let activeFilter = 'all';
+let intervalSecs = 30;
+let countdown = 30;
+let timer = null;
+let lightboxCam = null;
+
+// ── Tag helpers ──────────────────────────────────────────────────────────
+function tagClass(group) {
+  if (group === 'traffic') return 'tag-traffic';
+  if (group === 'Mallorca') return 'tag-mallorca';
+  if (group === 'Ibiza') return 'tag-ibiza';
+  if (group === 'Menorca') return 'tag-menorca';
+  return 'tag-mallorca';
+}
+
+function tagLabel(cam) {
+  if (cam.group === 'traffic') return cam.road;
+  return cam.group;
+}
+
+// ── Cache-bust URL ───────────────────────────────────────────────────────
+function bustUrl(url) {
+  return url + (url.includes('?') ? '&' : '?') + '_t=' + Date.now();
+}
+
+// ── Build grid ───────────────────────────────────────────────────────────
+function buildGrid() {
+  const container = document.getElementById('main-grid');
+
+  // Group cameras by section
+  const sections = [
+    { key: 'traffic', label: '🚗  Traffic Cameras — Mallorca Roads', filter: c => c.group === 'traffic' },
+    { key: 'Mallorca', label: '🏖  Scenic — Mallorca', filter: c => c.group === 'Mallorca' },
+    { key: 'Ibiza', label: '🎉  Ibiza', filter: c => c.group === 'Ibiza' },
+    { key: 'Menorca', label: '⛵  Menorca', filter: c => c.group === 'Menorca' },
+  ];
+
+  container.innerHTML = '';
+
+  sections.forEach(section => {
+    const cams = CAMERAS.filter(section.filter);
+    const sectionEl = document.createElement('div');
+    sectionEl.className = 'section';
+    sectionEl.dataset.section = section.key;
+
+    sectionEl.innerHTML = `<div class="section-title"><span>●</span>${section.label}</div>`;
+
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+
+    cams.forEach((cam, i) => {
+      const globalIdx = CAMERAS.indexOf(cam);
+      const card = document.createElement('div');
+      card.className = 'cam-card';
+      card.dataset.group = cam.group;
+      card.dataset.idx = globalIdx;
+      card.onclick = () => openLightbox(globalIdx);
+
+      card.innerHTML = `
+        <div class="card-header">
+          <div>
+            <div class="cam-name">${cam.name}</div>
+            <div class="cam-location">${cam.location}</div>
+          </div>
+          <span class="road-tag ${tagClass(cam.group)}">${tagLabel(cam)}</span>
+        </div>
+        <div class="img-wrapper">
+          <img class="cam-img loading" id="img-${globalIdx}" src="" alt="${cam.name}" 
+               onload="imgLoaded(${globalIdx})" onerror="imgError(${globalIdx})">
+          <div class="img-overlay" id="overlay-${globalIdx}">
+            <div class="overlay-icon">⚠</div>
+            <div class="overlay-msg">Could not load image</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="updated-time" id="time-${globalIdx}">Loading…</span>
+          <div class="img-status loading" id="status-${globalIdx}"></div>
+        </div>
+      `;
+
+      grid.appendChild(card);
+    });
+
+    sectionEl.appendChild(grid);
+    container.appendChild(sectionEl);
+  });
+
+  updateCamCount();
+}
+
+// ── Image callbacks ───────────────────────────────────────────────────────
+function imgLoaded(idx) {
+  const img = document.getElementById('img-' + idx);
+  const overlay = document.getElementById('overlay-' + idx);
+  const status = document.getElementById('status-' + idx);
+  const timeEl = document.getElementById('time-' + idx);
+  if (img) img.classList.remove('loading');
+  if (overlay) overlay.classList.remove('visible');
+  if (status) { status.className = 'img-status ok'; }
+  if (timeEl) timeEl.textContent = 'Updated ' + new Date().toLocaleTimeString();
+}
+
+function imgError(idx) {
+  const img = document.getElementById('img-' + idx);
+  const overlay = document.getElementById('overlay-' + idx);
+  const status = document.getElementById('status-' + idx);
+  const timeEl = document.getElementById('time-' + idx);
+  if (img) img.classList.remove('loading');
+  if (overlay) overlay.classList.add('visible');
+  if (status) { status.className = 'img-status err'; }
+  if (timeEl) timeEl.textContent = 'Failed ' + new Date().toLocaleTimeString();
+}
+
+// ── Load / refresh images ─────────────────────────────────────────────────
+function loadImage(idx) {
+  const img = document.getElementById('img-' + idx);
+  const status = document.getElementById('status-' + idx);
+  const overlay = document.getElementById('overlay-' + idx);
+  if (!img) return;
+  if (status) status.className = 'img-status loading';
+  if (overlay) overlay.classList.remove('visible');
+  img.classList.add('loading');
+  img.src = bustUrl(CAMERAS[idx].url);
+}
+
+function refreshAll() {
+  CAMERAS.forEach((_, idx) => loadImage(idx));
+  resetCountdown();
+}
+
+function refreshFiltered() {
+  CAMERAS.forEach((cam, idx) => {
+    const card = document.querySelector(`.cam-card[data-idx="${idx}"]`);
+    if (card && !card.classList.contains('hidden')) loadImage(idx);
+  });
+  resetCountdown();
+}
+
+// ── Filter ────────────────────────────────────────────────────────────────
+function applyFilter(filter) {
+  activeFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.filter === filter);
+  });
+
+  document.querySelectorAll('.section').forEach(section => {
+    const key = section.dataset.section;
+    const show = filter === 'all' || 
+                 (filter === 'traffic' && key === 'traffic') ||
+                 filter === key;
+    section.style.display = show ? '' : 'none';
+  });
+
+  updateCamCount();
+}
+
+function updateCamCount() {
+  const visible = document.querySelectorAll('.cam-card:not(.hidden)').length || CAMERAS.length;
+  document.getElementById('cam-count').textContent = 
+    (activeFilter === 'all' ? CAMERAS.length : 
+     CAMERAS.filter(c => activeFilter === 'traffic' ? c.group === 'traffic' : c.group === activeFilter).length
+    ) + ' cameras';
+}
+
+// ── Countdown & auto-refresh ──────────────────────────────────────────────
+function resetCountdown() {
+  countdown = intervalSecs;
+  updateCountdownUI();
+}
+
+function updateCountdownUI() {
+  document.getElementById('countdown-text').textContent = `Next refresh in ${countdown}s`;
+  const pct = (countdown / intervalSecs) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+function startTimer() {
+  if (timer) clearInterval(timer);
+  timer = setInterval(() => {
+    countdown--;
+    updateCountdownUI();
+    if (countdown <= 0) {
+      refreshAll();
+    }
+  }, 1000);
+}
+
+// ── Lightbox ──────────────────────────────────────────────────────────────
+function openLightbox(idx) {
+  lightboxCam = idx;
+  const cam = CAMERAS[idx];
+  document.getElementById('lb-title').textContent = cam.name;
+  document.getElementById('lb-sub').textContent = cam.location;
+  const img = document.getElementById('lb-img');
+  img.src = bustUrl(cam.url);
+  img.onload = () => {
+    document.getElementById('lb-updated').textContent = 'Updated ' + new Date().toLocaleTimeString();
+  };
+  document.getElementById('lightbox').classList.add('open');
+}
+
+function closeLightbox(e) {
+  if (!e || e.target === document.getElementById('lightbox')) {
+    document.getElementById('lightbox').classList.remove('open');
+    lightboxCam = null;
+  }
+}
+
+function refreshLightbox() {
+  if (lightboxCam === null) return;
+  const img = document.getElementById('lb-img');
+  img.src = bustUrl(CAMERAS[lightboxCam].url);
+  img.onload = () => {
+    document.getElementById('lb-updated').textContent = 'Updated ' + new Date().toLocaleTimeString();
+  };
+}
+
+// Keyboard close
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeLightbox({target: document.getElementById('lightbox')});
+});
+
+// ── Event listeners ───────────────────────────────────────────────────────
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => applyFilter(btn.dataset.filter));
+});
+
+document.getElementById('interval-select').addEventListener('change', function() {
+  intervalSecs = parseInt(this.value);
+  resetCountdown();
+  startTimer();
+});
+
+// ── Init ──────────────────────────────────────────────────────────────────
+buildGrid();
+refreshAll();
+startTimer();
+</script>
+</body>
+</html>
