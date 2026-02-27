@@ -256,6 +256,7 @@
   .tag-mallorca { background: #0a2540; color: var(--accent); border: 1px solid var(--accent2); }
   .tag-ibiza { background: #2a1a0a; color: var(--gold); border: 1px solid #5a3a0a; }
   .tag-menorca { background: #1a0a2a; color: #c084fc; border: 1px solid #3a1a5a; }
+  .tag-formentera { background: #0a2a1a; color: #4ade80; border: 1px solid #1a5a2a; }
 
   .img-wrapper {
     position: relative;
@@ -464,6 +465,7 @@
   <button class="filter-btn" data-filter="Mallorca">🏖 Mallorca</button>
   <button class="filter-btn" data-filter="Ibiza">🎉 Ibiza</button>
   <button class="filter-btn" data-filter="Menorca">⛵ Menorca</button>
+  <button class="filter-btn" data-filter="Formentera">🌴 Formentera</button>
   <div class="spacer"></div>
   <div class="refresh-control">
     <span class="filter-label">Refresh:</span>
@@ -537,35 +539,84 @@ const CAMERAS = [
   { name:"MA-1 · Cala Figuera (km 14)", location:"Cala Figuera / Calvià", group:"traffic", road:"MA-1", url:"https://infocar.dgt.es/etraffic/data/camaras/1384.jpg" },
   { name:"MA-1 · Galatzó (km 16.9)", location:"Galatzó", group:"traffic", road:"MA-1", url:"https://infocar.dgt.es/etraffic/data/camaras/1383.jpg" },
   { name:"MA-1 · Costa de la Calma (km 20.8)", location:"Costa de la Calma", group:"traffic", road:"MA-1", url:"https://infocar.dgt.es/etraffic/data/camaras/1382.jpg" },
-  // Mallorca scenic — visiona.conectabalear.com
+  // ── Mallorca scenic — visiona.conectabalear.com ──────────────────────
+  // Bays & coast
   { name:"Badia d'Alcúdia — Puig Sa Tudossa", location:"Bay of Alcúdia, N Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/TDS-CAM1/" },
+  { name:"Badia d'Alcúdia — Puig Sant Martí", location:"Bay of Alcúdia, N Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/STM-CAM1/" },
+  { name:"Badia d'Alcúdia — La Mola", location:"Bay of Alcúdia, N Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/MLA-CAM1/" },
   { name:"Badia de Pollença — La Mola", location:"Bay of Pollença, N Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/MLA-CAM2/" },
+  { name:"Badia de Pollença — Puig Sant Martí", location:"Bay of Pollença, N Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/STM-CAM2/" },
+  { name:"Badia de Palma — Coll de Juscons", location:"Bay of Palma", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/CLV-CAM1/" },
   { name:"Badia de Palma — Na Burgesa", location:"Bay of Palma", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/BGS-CAM1/" },
-  { name:"Tramuntana — Serra d'Alfàbia", location:"Serra de Tramuntana (UNESCO)", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/ALF-CAM2/" },
-  { name:"Sa Dragonera — Coll Andritxol", location:"Andratx, SW Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/ADX2-CAM1/" },
+  { name:"Bahía de Palma — Na Burgesa 2", location:"Bay of Palma", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/BGS-CAM2/" },
+  { name:"Cala Sant Vicenç", location:"N Mallorca coast", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/VIC-CAM1/" },
+  { name:"Costa dels Pins — Son Corb", location:"NE Mallorca coast", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/SCB-CAM1/" },
+  { name:"Bahía de Cala Millor — Son Corb", location:"Cala Millor bay, E Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/SCB-CAM3/" },
+  { name:"Cala Millor — Cala Bona", location:"Son Servera, E Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/SRV-CAM2/" },
+  { name:"Canyamel — Mirador", location:"Canyamel, NE Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/CML-CAM1/" },
+  { name:"Puig Negre — Canyamel", location:"Canyamel hills, E Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/CML-CAM2/" },
   { name:"Porto Cristo — Marina Drach", location:"Porto Cristo, E Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/HES-CAM1/" },
-  { name:"Canyamel Mirador", location:"Canyamel, E Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/CML-CAM1/" },
-  { name:"Puig de Sant Salvador", location:"Felanitx, SE Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/SSV-CAM1/" },
-  { name:"Monestir de Cura", location:"Puig de Randa, Central Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/CRA2-CAM1/" },
-  { name:"Cala Millor Beach — North", location:"Cala Millor, E Mallorca", group:"Mallorca", road:"Mallorca", url:"https://www.socib.es/~mobims/imageArchive/clm/sirena/clm/latest_mobile/c01_snap.jpg" },
-  { name:"Cala Millor Beach — South", location:"Cala Millor, E Mallorca", group:"Mallorca", road:"Mallorca", url:"https://www.socib.es/~mobims/imageArchive/clm/sirena/clm/latest_mobile/c05_snap.jpg" },
-  // Ibiza — visiona.conectabalear.com
+  { name:"Font de Sa Cala", location:"E Mallorca coast", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/FNT-CAM1/" },
+  { name:"Badia de Campos — Sa Rapita", location:"S Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/SRF-CAM1/" },
+  { name:"Platja Des Marquès", location:"S Mallorca coast", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/EMQ-CAM1/" },
+  { name:"Platja Des Trenc", location:"S Mallorca coast", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/EMQ-CAM2/" },
+  { name:"Portals Nous — Coll de Juscons", location:"SW Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/JSC-CAM1/" },
+  { name:"Sa Dragonera — Coll Andritxol", location:"Andratx, SW Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/ADX2-CAM1/" },
+  { name:"Puerto Andratx — Coll Andritxol", location:"Puerto Andratx, SW Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/ANX-CAM1/" },
+  { name:"Cala Llamp — Coll Andritxol", location:"SW Mallorca coast", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/ANX-CAM2/" },
+  { name:"Illa de Na Llarga", location:"E Mallorca offshore", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/CHQ-CAM1/" },
+  { name:"Cala Romàntica", location:"E Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/CRM-CAM1/" },
+  { name:"Cales de Mallorca 1", location:"SE Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/ECL-CAM1/" },
+  { name:"Cales de Mallorca 2", location:"SE Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/ECL-CAM2/" },
+  { name:"Santa Ponça", location:"SW Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/SPN-CAM1/" },
+  // Mountains & hilltop views
+  { name:"Tramuntana — Sóller & Port de Sóller", location:"Serra de Tramuntana (UNESCO)", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/ALF-CAM1/" },
+  { name:"Tramuntana — Serra d'Alfàbia", location:"Serra de Tramuntana (UNESCO)", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/ALF-CAM2/" },
+  { name:"Tramuntana — Alfàbia 2", location:"Serra de Tramuntana (UNESCO)", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/ALF-CAM3/" },
+  { name:"Serra de Tramuntana — Santa Eugènia", location:"Tramuntana, Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/SEG-CAM1/" },
+  { name:"Tramuntana — Alfàbia 4", location:"Serra de Tramuntana (UNESCO)", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/ALF-CAM4/" },
+  { name:"Valldemossa", location:"Valldemossa, NW Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/VDS-CAM1/" },
+  { name:"Alaró — Puig de cas Metge", location:"Alaró, N Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/ALR-CAM1/" },
+  { name:"Sant Miquel — Puig de Sant Miquel", location:"N Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/SMQ-CAM1/" },
+  { name:"Capdepera — Puig Sa Cova Negra", location:"NE Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/CPD-CAM1/" },
+  { name:"Puig de Maria — Pollença", location:"Pollença, N Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/PLT-CAM1/" },
+  { name:"Pollença Town", location:"Pollença, N Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/PLT-CAM2/" },
+  { name:"Mancor de la Vall", location:"Mancor de la Vall, Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/EMN-CAM1/" },
+  { name:"Galilea — Puigpunyent", location:"SW Mallorca hills", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/PGP-CAM1/" },
+  { name:"Sobremunt Mirador", location:"Central Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/ASB-CAM1/" },
+  { name:"Puig de Sant Salvador 1", location:"Felanitx, SE Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/SSV-CAM1/" },
+  { name:"Puig de Sant Salvador 2", location:"Felanitx, SE Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/SSV-CAM2/" },
+  { name:"Castell de Santueri — Consolació", location:"SE Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/CNS-CAM2/" },
+  { name:"Monestir de Cura — Pla de Mallorca", location:"Puig de Randa, Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/CRA2-CAM1/" },
+  { name:"Puig de Randa — Cura Nord", location:"Puig de Randa, Central Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/CRL-CAM1/" },
+  { name:"El Telègraf — Sant Llorenç", location:"E Mallorca hills", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/TLG-CAM1/" },
+  { name:"Artà — Santa Salvador", location:"Artà, NE Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/SVA-CAM1/" },
+  { name:"Cabrera — Es Llobets", location:"Cabrera island", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/WHCAM-CAM2/" },
+  { name:"Son Vida — Palma", location:"Son Vida, Palma", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/SVD-CAM1/" },
+  { name:"Cala Millor — SOCIB North", location:"Cala Millor, E Mallorca", group:"Mallorca", road:"Mallorca", url:"https://www.socib.es/~mobims/imageArchive/clm/sirena/clm/latest_mobile/c01_snap.jpg" },
+  { name:"Cala Millor — SOCIB South", location:"Cala Millor, E Mallorca", group:"Mallorca", road:"Mallorca", url:"https://www.socib.es/~mobims/imageArchive/clm/sirena/clm/latest_mobile/c05_snap.jpg" },
+  // ── Ibiza — visiona.conectabalear.com ───────────────────────────────
   { name:"Cala Tarida", location:"Cala Tarida, SW Ibiza", group:"Ibiza", road:"Ibiza", url:"https://visiona.conectabalear.com/preview/CTR-CAM1/" },
   { name:"Sant Joan — Talaia de Sant Joan", location:"N Ibiza (panoramic)", group:"Ibiza", road:"Ibiza", url:"https://visiona.conectabalear.com/preview/SJN-CAM1/" },
   { name:"Sa Talaia — Towards Sant Antoni", location:"Highest point on Ibiza", group:"Ibiza", road:"Ibiza", url:"https://visiona.conectabalear.com/preview/JSP-CAM1/" },
   { name:"Sa Talaia — Island View", location:"Sant Josep de Sa Talaia", group:"Ibiza", road:"Ibiza", url:"https://visiona.conectabalear.com/preview/JSP-CAM2/" },
   { name:"Sant Llorenç — Towards Eivissa", location:"Rural centre, Ibiza", group:"Ibiza", road:"Ibiza", url:"https://visiona.conectabalear.com/preview/SLO2-CAM1/" },
   { name:"Sant Llorenç — Countryside", location:"Rural centre, Ibiza", group:"Ibiza", road:"Ibiza", url:"https://visiona.conectabalear.com/preview/SLO2-CAM2/" },
-  // Menorca — visiona.conectabalear.com
+  // ── Menorca — visiona.conectabalear.com ─────────────────────────────
   { name:"Monte Toro — Santuario", location:"Monte Toro, highest peak Menorca", group:"Menorca", road:"Menorca", url:"https://visiona.conectabalear.com/preview/MTR-CAM1/" },
   { name:"Monte Toro — South Menorca", location:"Monte Toro, Menorca", group:"Menorca", road:"Menorca", url:"https://visiona.conectabalear.com/preview/MTR-CAM2/" },
   { name:"Monte Toro — Alaior", location:"Monte Toro, Menorca", group:"Menorca", road:"Menorca", url:"https://visiona.conectabalear.com/preview/MTR-CAM3/" },
   { name:"Ciutadella", location:"Ciutadella de Menorca", group:"Menorca", road:"Menorca", url:"https://visiona.conectabalear.com/preview/CTT-CAM1/" },
   { name:"Pla de Ciutadella", location:"Ciutadella countryside", group:"Menorca", road:"Menorca", url:"https://visiona.conectabalear.com/preview/CTT-CAM2/" },
   { name:"Binibèquer — Coast", location:"SE Menorca coast", group:"Menorca", road:"Menorca", url:"https://visiona.conectabalear.com/preview/BNB-CAM1/" },
-  { name:"Biniancolla", location:"SE Menorca", group:"Menorca", road:"Menorca", url:"https://visiona.conectabalear.com/preview/BIN-CAM1/" },
-  { name:"Illa de l'Aire", location:"S Menorca lighthouse island", group:"Menorca", road:"Menorca", url:"https://visiona.conectabalear.com/preview/BIN-CAM3/" },
-  { name:"Son Bou Beach", location:"Son Bou, S Menorca", group:"Menorca", road:"Menorca", url:"https://www.socib.es/~mobims/imageArchive/snb/sirena/snb/latest_mobile/c01_snap.jpg" },
+  { name:"Biniancolla — Coast", location:"SE Menorca", group:"Menorca", road:"Menorca", url:"https://visiona.conectabalear.com/preview/BIN-CAM1/" },
+  { name:"Pla de Binibequer", location:"SE Menorca", group:"Menorca", road:"Menorca", url:"https://visiona.conectabalear.com/preview/BIN-CAM2/" },
+  { name:"Illa de l'Aire — Lighthouse", location:"S Menorca lighthouse island", group:"Menorca", road:"Menorca", url:"https://visiona.conectabalear.com/preview/BIN-CAM3/" },
+  { name:"POIMA — Mahón Industrial", location:"Polígono Mahón, Menorca", group:"Menorca", road:"Menorca", url:"https://visiona.conectabalear.com/preview/PMA-CAM1/" },
+  { name:"Son Bou Beach — SOCIB", location:"Son Bou, S Menorca", group:"Menorca", road:"Menorca", url:"https://www.socib.es/~mobims/imageArchive/snb/sirena/snb/latest_mobile/c01_snap.jpg" },
+  // ── Formentera — visiona.conectabalear.com ───────────────────────────
+  { name:"Es Mirador Formentera", location:"Es Mirador, Formentera", group:"Formentera", road:"Formentera", url:"https://visiona.conectabalear.com/preview/MIR-CAM1/" },
+  { name:"Cap de Barbaria", location:"Southernmost point of Formentera", group:"Formentera", road:"Formentera", url:"https://visiona.conectabalear.com/preview/BRB-CAM1/" },
 ];
 
 // ── State ────────────────────────────────────────────────────────────────
@@ -581,6 +632,7 @@ function tagClass(group) {
   if (group === 'Mallorca') return 'tag-mallorca';
   if (group === 'Ibiza') return 'tag-ibiza';
   if (group === 'Menorca') return 'tag-menorca';
+  if (group === 'Formentera') return 'tag-formentera';
   return 'tag-mallorca';
 }
 
@@ -604,6 +656,7 @@ function buildGrid() {
     { key: 'Mallorca', label: '🏖  Scenic — Mallorca', filter: c => c.group === 'Mallorca' },
     { key: 'Ibiza', label: '🎉  Ibiza', filter: c => c.group === 'Ibiza' },
     { key: 'Menorca', label: '⛵  Menorca', filter: c => c.group === 'Menorca' },
+    { key: 'Formentera', label: '🌴  Formentera', filter: c => c.group === 'Formentera' },
   ];
 
   container.innerHTML = '';
