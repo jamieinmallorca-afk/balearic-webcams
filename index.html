@@ -516,14 +516,96 @@
     font-size: 11px;
     color: var(--muted);
   }
-  .footer-links { display: flex; gap: 16px; flex-wrap: wrap; }
+  .footer-links { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
   .footer-links a { color: var(--muted); text-decoration: none; }
   .footer-links a:hover { color: var(--accent); }
 
+  /* ── COOKIE BANNER ── */
+  .cookie-banner {
+    position: fixed;
+    bottom: 50px;
+    left: 0; right: 0;
+    background: #0a1828;
+    border-top: 1px solid var(--border);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    z-index: 200;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
+  }
+  .cookie-banner.hidden { display: none; }
+  .cookie-text { flex: 1; font-size: 12px; color: var(--text); line-height: 1.5; min-width: 200px; }
+  .cookie-text a { color: var(--accent); text-decoration: none; }
+  .cookie-text a:hover { text-decoration: underline; }
+  .cookie-buttons { display: flex; gap: 8px; flex-shrink: 0; }
+  .cookie-accept {
+    background: var(--accent2);
+    border: none; color: #fff;
+    padding: 8px 20px; border-radius: 6px;
+    cursor: pointer; font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 500;
+    transition: background 0.2s;
+  }
+  .cookie-accept:hover { background: var(--accent); }
+  .cookie-reject {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 8px 16px; border-radius: 6px;
+    cursor: pointer; font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    transition: all 0.2s;
+  }
+  .cookie-reject:hover { border-color: var(--muted); color: var(--text); }
+
+  /* ── MODALS ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    max-width: 640px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  .modal-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background: var(--card);
+    z-index: 1;
+  }
+  .modal-header h2 { font-size: 16px; font-weight: 500; color: var(--text); }
+  .modal-body { padding: 20px; font-size: 13px; line-height: 1.7; color: var(--text); }
+  .modal-body h3 { font-size: 13px; font-weight: 600; color: var(--accent); margin: 16px 0 6px; }
+  .modal-body p { margin-bottom: 10px; color: #a0c4d8; }
+  .modal-body ul { margin: 6px 0 10px 18px; color: #a0c4d8; }
+  .modal-body ul li { margin-bottom: 4px; }
+  .modal-body a { color: var(--accent); text-decoration: none; }
+  .modal-body a:hover { text-decoration: underline; }
+  .modal-updated { font-size: 11px; color: var(--muted); margin-top: 20px; padding-top: 12px; border-top: 1px solid var(--border); }
+
   @media (max-width: 600px) {
-    .ad-slot { padding: 10px 16px; min-height: 70px; }
-    .ad-placeholder a { padding: 8px 12px; font-size: 12px; }
+    .cookie-banner { bottom: 44px; padding: 12px 16px; }
     .site-footer { flex-direction: column; align-items: flex-start; }
+    .modal-box { max-height: 90vh; }
   }
 </style>
 </head>
@@ -615,6 +697,10 @@
     <a href="https://www.getyourguide.com/mallorca-l274/" target="_blank" rel="noopener">Activities</a>
     <a href="https://www.rentalcars.com/en/country/es/" target="_blank" rel="noopener">Car Hire</a>
     <a href="https://www.aemet.es/es/eltiempo/prediccion/islas_baleares" target="_blank" rel="noopener">Weather Forecast</a>
+    <span style="color:var(--border)">|</span>
+    <a href="#" onclick="openModal('privacy-modal');return false;">Privacy Policy</a>
+    <a href="#" onclick="openModal('affiliate-modal');return false;">Affiliate Disclosure</a>
+    <a href="#" onclick="openCookieSettings();return false;">Cookie Settings</a>
   </div>
   <div>Camera sources: DGT · visiona.conectabalear.com · SOCIB</div>
 </footer>
@@ -867,9 +953,15 @@ function imgError(idx) {
   const status = document.getElementById('status-' + idx);
   const timeEl = document.getElementById('time-' + idx);
   if (img) img.classList.remove('loading');
-  if (overlay) overlay.classList.add('visible');
+  if (overlay) {
+    const isDGT = CAMERAS[idx].url.includes('infocar.dgt.es');
+    overlay.innerHTML = isDGT
+      ? `<div class="overlay-icon">🚧</div><div class="overlay-msg">DGT server temporarily unavailable<br><a href="https://infocar.dgt.es/etraffic/" target="_blank" rel="noopener" style="color:var(--accent);font-size:10px;">View on DGT directly →</a></div>`
+      : `<div class="overlay-icon">⚠</div><div class="overlay-msg">Could not load image</div>`;
+    overlay.classList.add('visible');
+  }
   if (status) { status.className = 'img-status err'; }
-  if (timeEl) timeEl.textContent = 'Failed ' + new Date().toLocaleTimeString();
+  if (timeEl) timeEl.textContent = 'Unavailable ' + new Date().toLocaleTimeString();
 }
 
 // ── Load / refresh images ─────────────────────────────────────────────────
@@ -976,10 +1068,7 @@ function refreshLightbox() {
   };
 }
 
-// Keyboard close
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeLightbox({target: document.getElementById('lightbox')});
-});
+// Keyboard close — handled below with modal support
 
 // ── Event listeners ───────────────────────────────────────────────────────
 document.querySelectorAll('.filter-btn').forEach(btn => {
@@ -996,6 +1085,136 @@ document.getElementById('interval-select').addEventListener('change', function()
 buildGrid();
 refreshAll();
 startTimer();
+
+// ── Cookie consent ────────────────────────────────────────────────────────
+function initCookieBanner() {
+  if (!localStorage.getItem('cookie_consent')) {
+    document.getElementById('cookie-banner').classList.remove('hidden');
+  }
+}
+
+function acceptCookies() {
+  localStorage.setItem('cookie_consent', 'accepted');
+  document.getElementById('cookie-banner').classList.add('hidden');
+}
+
+function rejectCookies() {
+  localStorage.setItem('cookie_consent', 'rejected');
+  document.getElementById('cookie-banner').classList.add('hidden');
+}
+
+function openCookieSettings() {
+  localStorage.removeItem('cookie_consent');
+  document.getElementById('cookie-banner').classList.remove('hidden');
+}
+
+// ── Modals ────────────────────────────────────────────────────────────────
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.open').forEach(m => {
+      m.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+    closeLightbox({target: document.getElementById('lightbox')});
+  }
+});
+
+initCookieBanner();
 </script>
+
+<!-- ══ COOKIE CONSENT BANNER ══════════════════════════════════════════════ -->
+<div class="cookie-banner hidden" id="cookie-banner">
+  <div class="cookie-text">
+    🍪 We use cookies to improve your experience and show relevant advertising. 
+    Some links on this site are affiliate links — we may earn a small commission if you book through them, 
+    at no extra cost to you. See our <a href="#" onclick="openModal('privacy-modal');return false;">Privacy Policy</a> 
+    and <a href="#" onclick="openModal('affiliate-modal');return false;">Affiliate Disclosure</a>.
+  </div>
+  <div class="cookie-buttons">
+    <button class="cookie-reject" onclick="rejectCookies()">Reject Non-Essential</button>
+    <button class="cookie-accept" onclick="acceptCookies()">Accept All</button>
+  </div>
+</div>
+
+<!-- ══ PRIVACY POLICY MODAL ═══════════════════════════════════════════════ -->
+<div class="modal-overlay" id="privacy-modal" onclick="if(event.target===this)closeModal('privacy-modal')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2>🔒 Privacy Policy</h2>
+      <button class="close-btn" onclick="closeModal('privacy-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p>This Privacy Policy explains how <strong>Balearic Webcams</strong> (balearicwebcams, accessible at jamieinmallorca-afk.github.io/balearic-webcams) handles your information.</p>
+
+      <h3>What data we collect</h3>
+      <p>This website does not collect or store any personal data directly. We do not require registration or login. We do not run our own analytics.</p>
+
+      <h3>Third-party services</h3>
+      <p>This site links to or may embed content from third-party services. These services may set their own cookies and collect data in accordance with their own privacy policies:</p>
+      <ul>
+        <li><strong>Google Fonts</strong> — loads fonts from Google's servers. Google may log your IP address. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a></li>
+        <li><strong>Webcam image sources</strong> — images are loaded directly from DGT (Spanish traffic authority), visiona.conectabalear.com, and SOCIB. These providers may log requests.</li>
+        <li><strong>Affiliate links</strong> — links to Booking.com, GetYourGuide, and Rentalcars.com use tracking cookies to attribute bookings. See our Affiliate Disclosure below.</li>
+      </ul>
+
+      <h3>Cookies</h3>
+      <p>We store a single cookie preference value in your browser's local storage to remember your cookie consent choice. No personal data is stored in this value.</p>
+      <p>Third-party affiliate links (Booking.com, GetYourGuide, Rentalcars.com) will set their own tracking cookies when you click through to their sites. You can reject non-essential cookies using the banner at the bottom of this page.</p>
+
+      <h3>Webcam images</h3>
+      <p>Live webcam images displayed on this site are sourced from publicly available feeds operated by third parties (DGT, visiona.conectabalear.com, SOCIB). We do not store, record, or process these images.</p>
+
+      <h3>Your rights (GDPR)</h3>
+      <p>As a resident of the EU/EEA, you have the right to access, correct, or request deletion of any personal data held about you. Since we do not collect personal data, there is nothing to delete. For concerns about data collected by third-party services, please refer to their respective privacy policies.</p>
+
+      <h3>Contact</h3>
+      <p>For any privacy-related questions, please use the contact form on our GitHub page.</p>
+
+      <div class="modal-updated">Last updated: March 2026</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ AFFILIATE DISCLOSURE MODAL ════════════════════════════════════════ -->
+<div class="modal-overlay" id="affiliate-modal" onclick="if(event.target===this)closeModal('affiliate-modal')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2>💼 Affiliate Disclosure</h2>
+      <button class="close-btn" onclick="closeModal('affiliate-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p><strong>Balearic Webcams</strong> participates in affiliate marketing programmes. This means that some links on this website are affiliate links.</p>
+
+      <h3>What this means for you</h3>
+      <p>If you click on an affiliate link and make a purchase or booking, we may receive a small commission from the retailer or service provider. <strong>This comes at no extra cost to you</strong> — you pay exactly the same price as you would going directly to the site.</p>
+
+      <h3>Our affiliate partners</h3>
+      <ul>
+        <li><strong>Booking.com</strong> — hotel and accommodation bookings</li>
+        <li><strong>GetYourGuide</strong> — tours, activities and experiences</li>
+        <li><strong>Rentalcars.com</strong> — car hire comparisons</li>
+      </ul>
+
+      <h3>Our commitment</h3>
+      <p>We only link to services we genuinely believe are useful to visitors planning a trip to the Balearic Islands. Affiliate relationships do not influence which webcams we feature or the content we provide — the camera feeds are sourced independently from public data providers.</p>
+
+      <h3>FTC & EU compliance</h3>
+      <p>In accordance with FTC guidelines and EU consumer protection regulations, we clearly disclose that this site contains affiliate links. The "Advertisement" label shown on ad panels indicates sponsored or affiliate content.</p>
+
+      <div class="modal-updated">Last updated: March 2026</div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
