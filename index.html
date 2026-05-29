@@ -821,33 +821,36 @@
 // ── Camera data ──────────────────────────────────────────────────────────
 const CAMERAS = [
   // MA-19
-  { name:"MA-19 · El Molinar (km 4.2)", location:"El Molinar, Palma", group:"traffic", road:"MA-19", url:"http://infocar.dgt.es/etraffic/data/camaras/1398.jpg" },
-  { name:"MA-19 · Playa Ciudad Jardín (km 5)", location:"Ciudad Jardín, Palma", group:"traffic", road:"MA-19", url:"http://infocar.dgt.es/etraffic/data/camaras/1399.jpg" },
-  { name:"MA-19 · Can Pastilla (km 7.5)", location:"Can Pastilla", group:"traffic", road:"MA-19", url:"http://infocar.dgt.es/etraffic/data/camaras/1400.jpg" },
-  { name:"MA-19 · Palma Aquarium (km 9.6)", location:"s'Arenal Nord", group:"traffic", road:"MA-19", url:"http://infocar.dgt.es/etraffic/data/camaras/1401.jpg" },
-  { name:"MA-19 · Els Pil·larí (km 11.7)", location:"Els Pil·larí", group:"traffic", road:"MA-19", url:"http://infocar.dgt.es/etraffic/data/camaras/1402.jpg" },
-  { name:"MA-19 · Ses Cadenes (km 13)", location:"Ses Cadenes", group:"traffic", road:"MA-19", url:"http://infocar.dgt.es/etraffic/data/camaras/1403.jpg" },
-  { name:"MA-19 · El Arenal (km 14.2)", location:"El Arenal", group:"traffic", road:"MA-19", url:"http://infocar.dgt.es/etraffic/data/camaras/165395.jpg" },
-  { name:"MA-19 · El Arenal Oeste (km 15.4)", location:"El Arenal Oeste", group:"traffic", road:"MA-19", url:"http://infocar.dgt.es/etraffic/data/camaras/165402.jpg" },
-  { name:"MA-19 · Llucmajor (km 19)", location:"Llucmajor", group:"traffic", road:"MA-19", url:"http://infocar.dgt.es/etraffic/data/camaras/165403.jpg" },
-  // MA-20
-  { name:"MA-20 · Palma Norte (km 6.15)", location:"Palma Norte", group:"traffic", road:"MA-20", url:"http://infocar.dgt.es/etraffic/data/camaras/1657.jpg" },
+  { name:"MA-19 · El Molinar (km 4.2)", location:"El Molinar, Palma", group:"traffic", road:"MA-19", url:"https://etraffic.dgt.es/camarasEtraffic/1398.jpg" },
+  { name:"MA-19 · Playa Ciudad Jardín (km 5)", location:"Ciudad Jardín, Palma", group:"traffic", road:"MA-19", url:"https://etraffic.dgt.es/camarasEtraffic/1399.jpg" },
+  { name:"MA-19 · Can Pastilla (km 7.5)", location:"Can Pastilla", group:"traffic", road:"MA-19", url:"https://etraffic.dgt.es/camarasEtraffic/1400.jpg" },
+  { name:"MA-19 · Palma Aquarium (km 9.6)", location:"s'Arenal Nord", group:"traffic", road:"MA-19", url:"https://etraffic.dgt.es/camarasEtraffic/1401.jpg" },
+  { name:"MA-19 · Els Pil·larí (km 11.7)", location:"Els Pil·larí", group:"traffic", road:"MA-19", url:"https://etraffic.dgt.es/camarasEtraffic/1402.jpg" },
+  { name:"MA-19 · Ses Cadenes (km 13)", location:"Ses Cadenes", group:"traffic", road:"MA-19", url:"https://etraffic.dgt.es/camarasEtraffic/1403.jpg" },
+  { name:"MA-19 · El Arenal (km 14.2)", location:"El Arenal", group:"traffic", road:"MA-19", url:"https://etraffic.dgt.es/camarasEtraffic/165395.jpg" },
+  { name:"MA-19 · El Arenal Oeste (km 15.4)", location:"El Arenal Oeste", group:"traffic", road:"MA-19", url:"https://etraffic.dgt.es/camarasEtraffic/165402.jpg" },
+  { name:"MA-19 · Llucmajor (km 19)", location:"Llucmajor", group:"traffic", road:"MA-19", url:"https://etraffic.dgt.es/camarasEtraffic/165403.jpg" },
+  // MA-20 / MA-30 / MA-15 — Palma ring roads
+  { name:"MA-20 · Palma Norte (km 6.1)", location:"Palma Norte", group:"traffic", road:"MA-20", url:"https://etraffic.dgt.es/camarasEtraffic/1657.jpg" },
+  { name:"MA-30 · Palma (km 2.9)", location:"Palma ring road", group:"traffic", road:"MA-20", url:"https://etraffic.dgt.es/camarasEtraffic/172904.jpg" },
+  { name:"MA-15 · Palma (km 3.2)", location:"Palma east ring road", group:"traffic", road:"MA-20", url:"https://etraffic.dgt.es/camarasEtraffic/176265.jpg" },
   // MA-13
-  { name:"MA-13 · Pont d'Inca (km 4.1)", location:"Pont d'Inca", group:"traffic", road:"MA-13", url:"http://infocar.dgt.es/etraffic/data/camaras/1393.jpg" },
-  { name:"MA-13 · Marratxí (km 8)", location:"Marratxí", group:"traffic", road:"MA-13", url:"http://infocar.dgt.es/etraffic/data/camaras/1394.jpg" },
-  { name:"MA-13 · Santa Maria del Camí (km 12)", location:"Santa Maria del Camí", group:"traffic", road:"MA-13", url:"http://infocar.dgt.es/etraffic/data/camaras/1395.jpg" },
-  { name:"MA-13 · Consell (km 17)", location:"Consell", group:"traffic", road:"MA-13", url:"http://infocar.dgt.es/etraffic/data/camaras/1396.jpg" },
-  { name:"MA-13 · Binissalem (km 19.4)", location:"Binissalem", group:"traffic", road:"MA-13", url:"http://infocar.dgt.es/etraffic/data/camaras/1654.jpg" },
-  { name:"MA-13 · Inca Sur (km 25)", location:"Inca", group:"traffic", road:"MA-13", url:"http://infocar.dgt.es/etraffic/data/camaras/1397.jpg" },
+  { name:"MA-13 · Pont d'Inca (km 4.1)", location:"Pont d'Inca", group:"traffic", road:"MA-13", url:"https://etraffic.dgt.es/camarasEtraffic/1393.jpg" },
+  { name:"MA-13 · Marratxí (km 8)", location:"Marratxí", group:"traffic", road:"MA-13", url:"https://etraffic.dgt.es/camarasEtraffic/1394.jpg" },
+  { name:"MA-13 · Santa Maria del Camí (km 12)", location:"Santa Maria del Camí", group:"traffic", road:"MA-13", url:"https://etraffic.dgt.es/camarasEtraffic/1395.jpg" },
+  { name:"MA-13 · Consell (km 17)", location:"Consell", group:"traffic", road:"MA-13", url:"https://etraffic.dgt.es/camarasEtraffic/1396.jpg" },
+  { name:"MA-13 · Binissalem (km 19.4)", location:"Binissalem", group:"traffic", road:"MA-13", url:"https://etraffic.dgt.es/camarasEtraffic/1654.jpg" },
+  { name:"MA-13 · Inca Sur (km 25)", location:"Inca", group:"traffic", road:"MA-13", url:"https://etraffic.dgt.es/camarasEtraffic/1397.jpg" },
   // MA-1
-  { name:"MA-1 · Cala Major (km 4)", location:"Cala Major, Palma", group:"traffic", road:"MA-1", url:"http://infocar.dgt.es/etraffic/data/camaras/1389.jpg" },
-  { name:"MA-1 · Sant Agustí (km 6.9)", location:"Sant Agustí, Palma", group:"traffic", road:"MA-1", url:"http://infocar.dgt.es/etraffic/data/camaras/1388.jpg" },
-  { name:"MA-1 · Bendinat (km 8.6)", location:"Castell de Bendinat", group:"traffic", road:"MA-1", url:"http://infocar.dgt.es/etraffic/data/camaras/1387.jpg" },
-  { name:"MA-1 · Portal Nous (km 9.7)", location:"Portal Nous / Illetes", group:"traffic", road:"MA-1", url:"http://infocar.dgt.es/etraffic/data/camaras/1386.jpg" },
-  { name:"MA-1 · Son Caliu (km 12.6)", location:"Son Caliu / Palmanova", group:"traffic", road:"MA-1", url:"http://infocar.dgt.es/etraffic/data/camaras/1385.jpg" },
-  { name:"MA-1 · Cala Figuera (km 14)", location:"Cala Figuera / Calvià", group:"traffic", road:"MA-1", url:"http://infocar.dgt.es/etraffic/data/camaras/1384.jpg" },
-  { name:"MA-1 · Galatzó (km 16.9)", location:"Galatzó", group:"traffic", road:"MA-1", url:"http://infocar.dgt.es/etraffic/data/camaras/1383.jpg" },
-  { name:"MA-1 · Costa de la Calma (km 20.8)", location:"Costa de la Calma", group:"traffic", road:"MA-1", url:"http://infocar.dgt.es/etraffic/data/camaras/1382.jpg" },
+  { name:"MA-1 · Cala Major (km 4)", location:"Cala Major, Palma", group:"traffic", road:"MA-1", url:"https://etraffic.dgt.es/camarasEtraffic/1389.jpg" },
+  { name:"MA-1 · Andratx (km 22.9)", location:"Andratx", group:"traffic", road:"MA-1", url:"https://etraffic.dgt.es/camarasEtraffic/169154.jpg" },
+  { name:"MA-1 · Sant Agustí (km 6.9)", location:"Sant Agustí, Palma", group:"traffic", road:"MA-1", url:"https://etraffic.dgt.es/camarasEtraffic/1388.jpg" },
+  { name:"MA-1 · Bendinat (km 8.6)", location:"Castell de Bendinat", group:"traffic", road:"MA-1", url:"https://etraffic.dgt.es/camarasEtraffic/1387.jpg" },
+  { name:"MA-1 · Portal Nous (km 9.7)", location:"Portal Nous / Illetes", group:"traffic", road:"MA-1", url:"https://etraffic.dgt.es/camarasEtraffic/1386.jpg" },
+  { name:"MA-1 · Son Caliu (km 12.6)", location:"Son Caliu / Palmanova", group:"traffic", road:"MA-1", url:"https://etraffic.dgt.es/camarasEtraffic/1385.jpg" },
+  { name:"MA-1 · Cala Figuera (km 14)", location:"Cala Figuera / Calvià", group:"traffic", road:"MA-1", url:"https://etraffic.dgt.es/camarasEtraffic/1384.jpg" },
+  { name:"MA-1 · Galatzó (km 16.9)", location:"Galatzó", group:"traffic", road:"MA-1", url:"https://etraffic.dgt.es/camarasEtraffic/1383.jpg" },
+  { name:"MA-1 · Costa de la Calma (km 20.8)", location:"Costa de la Calma", group:"traffic", road:"MA-1", url:"https://etraffic.dgt.es/camarasEtraffic/1382.jpg" },
   // ── Mallorca scenic — visiona.conectabalear.com ──────────────────────
   // Bays & coast
   { name:"Badia d'Alcúdia — Puig Sa Tudossa", location:"Bay of Alcúdia, N Mallorca", group:"Mallorca", road:"Mallorca", url:"https://visiona.conectabalear.com/preview/TDS-CAM1/" },
@@ -1083,9 +1086,9 @@ function imgError(idx) {
   const timeEl = document.getElementById('time-' + idx);
   if (img) img.classList.remove('loading');
   if (overlay) {
-    const isDGT = CAMERAS[idx].url.includes('infocar.dgt.es');
+    const isDGT = CAMERAS[idx].url.includes('etraffic.dgt.es');
     overlay.innerHTML = isDGT
-      ? `<div class="overlay-icon">🚧</div><div class="overlay-msg">DGT server temporarily unavailable<br><a href="http://infocar.dgt.es/etraffic/" target="_blank" rel="noopener" style="color:var(--accent);font-size:10px;">View on DGT directly →</a></div>`
+      ? `<div class="overlay-icon">🚧</div><div class="overlay-msg">DGT camera unavailable<br><a href="https://etraffic.dgt.es/etrafficWEB/" target="_blank" rel="noopener" style="color:var(--accent);font-size:10px;">View on DGT directly →</a></div>`
       : `<div class="overlay-icon">⚠</div><div class="overlay-msg">Could not load image</div>`;
     overlay.classList.add('visible');
   }
